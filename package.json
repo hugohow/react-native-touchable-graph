@@ -1,6 +1,6 @@
 {
   "name": "react-native-touchable-graph",
-  "version": "0.0.131",
+  "version": "0.0.132",
   "description": "React Native component for touchable graph",
   "main": "src/TouchableGraph.js",
   "repository": {
