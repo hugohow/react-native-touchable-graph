@@ -23,17 +23,12 @@ class TouchableGraph extends Component {
         return ticks.map((tick, index) => {
             let { tickLabels, tickAxis } = tick
             if(tickLabels) {
+                let 
                 if(this.props.renderTickAxis) {
                     return this.props.renderTickAxis(tick, index)
                 }
                 let positionStyle;
-                if (tickAxisStyle && typeof tickAxisStyle === "function") {
-                    tickAxisStyle = tickAxisStyle(tick, index)
-                }
-                if (tickAxisTextStyle && typeof tickAxisTextStyle === "function") {
-                    tickAxisTextStyle = tickAxisTextStyle(tick, index)
-                }
-                let widthButton = tickAxisStyle.width ? tickAxisStyle.width : 40;
+                let widthButton = 40;
                 let textAlign
                 let top = tickAxis.dimension === "x" ? tickLabels.y : tickLabels.y - tickLabels.style.fontSize/2
                 if(tickLabels.textAnchor === "middle") {
@@ -62,10 +57,10 @@ class TouchableGraph extends Component {
                             width: widthButton,
                             top: top,
                             zIndex: 99
-                        }, positionStyle, tickAxisStyle]}
+                        }, positionStyle, typeof tickAxisStyle === "function" ? tickAxisStyle(tick, index) : tickAxisStyle]}
                         onPress={() => onPressTickAxis(tick, index)}
                     >
-                        <Text style={[{fontSize: tickLabels.style.fontSize, textAlign: textAlign}, tickAxisTextStyle]}>
+                        <Text style={[{fontSize: tickLabels.style.fontSize, textAlign: textAlign}, typeof tickAxisTextStyle === "function" ? tickAxisTextStyle(tick, index) : tickAxisTextStyle]}>
                             {tickLabels.text}
                         </Text>
                     </TouchableOpacity>
@@ -85,9 +80,6 @@ class TouchableGraph extends Component {
             if (this.props.renderBar) {
                 return this.props.renderBar(data, index);
             }
-            if (barStyle && typeof barStyle === "function") {
-                barStyle = barStyle(data, index)
-            }
             return (
                 <TouchableOpacity 
                     key={`bar-${index}`}
@@ -98,7 +90,7 @@ class TouchableGraph extends Component {
                         height: data.height - data.y - paddingBottom,
                         width: widthBar,
                         zIndex: 99
-                    }, barStyle]}
+                    }, typeof barStyle === "function" ? barStyle(tick, index) : barStyle]}
                     onPress={() => { onPressBar(data, index);}}>
                 </TouchableOpacity>
             )
