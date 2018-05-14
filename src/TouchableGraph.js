@@ -19,7 +19,7 @@ class TouchableGraph extends Component {
     }
     renderAxis(axisData) {
         const ticks = [].concat.apply([], axisData); 
-        const { onPressTickAxis, tickAxisStyle, tickAxisTextStyle } = this.props
+        let { onPressTickAxis, tickAxisStyle, tickAxisTextStyle } = this.props
         return ticks.map((tick, index) => {
             let { tickLabels, tickAxis } = tick
             if(tickLabels) {
@@ -27,6 +27,13 @@ class TouchableGraph extends Component {
                     return this.props.renderTickAxis(tick, index)
                 }
                 let positionStyle;
+                if (tickAxisStyle && typeof tickAxisStyle === "function") {
+                    tickAxisStyle = tickAxisStyle(tick, index)
+                }
+                let tickAxisTextStyle;
+                if (tickAxisTextStyle && typeof tickAxisTextStyle === "function") {
+                    tickAxisTextStyle = tickAxisTextStyle(tick, index)
+                }
                 let widthButton = tickAxisStyle.width ? tickAxisStyle.width : 40;
                 let textAlign
                 let top = tickAxis.dimension === "x" ? tickLabels.y : tickLabels.y - tickLabels.style.fontSize/2
@@ -69,7 +76,7 @@ class TouchableGraph extends Component {
     }
     renderBars(barsData) {
         const bars = [].concat.apply([], barsData); 
-        const { onPressBar, barStyle } = this.props
+        let { onPressBar, barStyle } = this.props
         return bars.map((data, index) => {
             let widthBar = 20
             let paddingBottom = 50
@@ -78,6 +85,9 @@ class TouchableGraph extends Component {
             }
             if (this.props.renderBar) {
                 return this.props.renderBar(data, index);
+            }
+            if (barStyle && typeof barStyle === "function") {
+                barStyle = barStyle(data, index)
             }
             return (
                 <TouchableOpacity 
@@ -148,11 +158,20 @@ class TouchableGraph extends Component {
 
 
 TouchableGraph.propTypes = {
-    barStyle: PropTypes.object,
+    barStyle: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.func
+    ]),
     onPressBar: PropTypes.func,
     renderBar: PropTypes.func,
-    tickAxisStyle: PropTypes.object,
-    tickAxisTextStyle: PropTypes.object,
+    tickAxisStyle: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.func
+    ]),
+    tickAxisTextStyle: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.func
+    ]),
     onPressTickAxis: PropTypes.func,
     renderTickAxis: PropTypes.func,
 }
