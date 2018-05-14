@@ -75,7 +75,7 @@ const data = [
 
 Bar props :
 
-* **`barStyle`** _(Object)_ or _(Function(tickData, index))_  - Bar style 
+* **`barStyle`** _(Object)_ or _(Function(barData, index))_  - Bar style 
 * **`onPressBar`** _(Function(barData, index))_ - Callback when a bar is tapped
 * **`renderBar`** _(Function(barData, index))_ - Custom bar
 
