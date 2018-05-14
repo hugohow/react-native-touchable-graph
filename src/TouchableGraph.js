@@ -30,7 +30,6 @@ class TouchableGraph extends Component {
                 if (tickAxisStyle && typeof tickAxisStyle === "function") {
                     tickAxisStyle = tickAxisStyle(tick, index)
                 }
-                let tickAxisTextStyle;
                 if (tickAxisTextStyle && typeof tickAxisTextStyle === "function") {
                     tickAxisTextStyle = tickAxisTextStyle(tick, index)
                 }
