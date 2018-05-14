@@ -73,6 +73,9 @@ class TouchableGraph extends Component {
             if(!data || !data.x) {
                 return null;
             }
+            if (this.props.renderBar) {
+                return this.props.renderBar(data, index);
+            }
             return (
                 <TouchableOpacity 
                     key={`bar-${index}`}
@@ -84,7 +87,7 @@ class TouchableGraph extends Component {
                         width: widthBar,
                         zIndex: 99
                     }, barStyle]}
-                    onPress={() => { onPressBar(data);}}>
+                    onPress={() => { onPressBar(data, index);}}>
                 </TouchableOpacity>
             )
         })
@@ -144,6 +147,7 @@ class TouchableGraph extends Component {
 TouchableGraph.propTypes = {
     barStyle: PropTypes.object,
     onPressBar: PropTypes.func,
+    renderBar: PropTypes.func,
     tickAxisStyle: PropTypes.object,
     tickAxisTextStyle: PropTypes.object,
     onPressTickAxis: PropTypes.func,
@@ -152,6 +156,7 @@ TouchableGraph.propTypes = {
 TouchableGraph.defaultProps = {
     barStyle: { borderColor: 'grey', borderWidth: 1 },
     onPressBar: () => {},
+    renderBar: null,
     tickAxisStyle: {},
     tickAxisTextStyle: { fontSize: 12, color: 'black' },
     onPressTickAxis: () => {},
