@@ -23,7 +23,6 @@ class TouchableGraph extends Component {
         return ticks.map((tick, index) => {
             let { tickLabels, tickAxis } = tick
             if(tickLabels) {
-                let 
                 if(this.props.renderTickAxis) {
                     return this.props.renderTickAxis(tick, index)
                 }
