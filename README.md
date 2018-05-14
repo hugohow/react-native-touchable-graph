@@ -83,7 +83,8 @@ Tick axis props :
 
 * **`tickAxisStyle`** _(Object)_ - Tick axis style 
 * **`tickAxisTextStyle`** _(Object)_ - Tick axis text style 
-* **`onPressTickAxis`** _(Function(tickData))_ - Callback when a tick axis is tapped
+* **`onPressTickAxis`** _(Function(tickData, index))_ - Callback when a tick axis is tapped
+* **`renderTickAxis`** _(Function(tickData, index))_ - Custom tickAxis
 
 
 ## Roadmap

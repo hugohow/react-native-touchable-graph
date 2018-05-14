@@ -23,6 +23,9 @@ class TouchableGraph extends Component {
         return ticks.map((tick, index) => {
             let { tickLabels, tickAxis } = tick
             if(tickLabels) {
+                if(this.props.renderTickAxis) {
+                    return this.props.renderTickAxis(tick, index)
+                }
                 let positionStyle;
                 let widthButton = tickAxisStyle.width ? tickAxisStyle.width : 40;
                 let textAlign
@@ -54,7 +57,7 @@ class TouchableGraph extends Component {
                             top: top,
                             zIndex: 99
                         }, positionStyle, tickAxisStyle]}
-                        onPress={() => onPressTickAxis(tick)}
+                        onPress={() => onPressTickAxis(tick, index)}
                     >
                         <Text style={[{fontSize: tickLabels.style.fontSize, textAlign: textAlign}, tickAxisTextStyle]}>
                             {tickLabels.text}
@@ -151,6 +154,7 @@ TouchableGraph.propTypes = {
     tickAxisStyle: PropTypes.object,
     tickAxisTextStyle: PropTypes.object,
     onPressTickAxis: PropTypes.func,
+    renderTickAxis: PropTypes.func,
 }
 
 TouchableGraph.defaultProps = {
@@ -160,6 +164,7 @@ TouchableGraph.defaultProps = {
     tickAxisStyle: {},
     tickAxisTextStyle: { fontSize: 12, color: 'black' },
     onPressTickAxis: () => {},
+    renderTickAxis: null,
 }
 
 
