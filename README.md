@@ -75,14 +75,14 @@ const data = [
 
 Bar props :
 
-* **`barStyle`** _(Object)_ - Bar style 
+* **`barStyle`** _(Object)_ or _(Function(barData, index))_  - Bar style 
 * **`onPressBar`** _(Function(barData, index))_ - Callback when a bar is tapped
 * **`renderBar`** _(Function(barData, index))_ - Custom bar
 
 Tick axis props :
 
-* **`tickAxisStyle`** _(Object)_ - Tick axis style 
-* **`tickAxisTextStyle`** _(Object)_ - Tick axis text style 
+* **`tickAxisStyle`** _(Object)_ or _(Function(tickData, index))_  - Tick axis style 
+* **`tickAxisTextStyle`** _(Object)_ or _(Function(tickData, index))_  - Tick axis text style 
 * **`onPressTickAxis`** _(Function(tickData, index))_ - Callback when a tick axis is tapped
 * **`renderTickAxis`** _(Function(tickData, index))_ - Custom tickAxis
 
