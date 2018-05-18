@@ -89,7 +89,7 @@ class TouchableGraph extends Component {
                         height: data.height - data.y - paddingBottom,
                         width: widthBar,
                         zIndex: 99
-                    }, typeof barStyle === "function" ? barStyle(tick, index) : barStyle]}
+                    }, typeof barStyle === "function" ? barStyle(data, index) : barStyle]}
                     onPress={() => { onPressBar(data, index);}}>
                 </TouchableOpacity>
             )
