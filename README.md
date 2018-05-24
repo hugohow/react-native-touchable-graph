@@ -78,6 +78,7 @@ Bar props :
 * **`barStyle`** _(Object)_ or _(Function(barData, index))_  - Bar style 
 * **`onPressBar`** _(Function(barData, index))_ - Callback when a bar is tapped
 * **`renderBar`** _(Function(barData, index))_ - Custom bar
+* **`getBarDatum`** _(Function(bars))_ - Get Bars datum
 
 Tick axis props :
 
@@ -85,7 +86,7 @@ Tick axis props :
 * **`tickAxisTextStyle`** _(Object)_ or _(Function(tickData, index))_  - Tick axis text style 
 * **`onPressTickAxis`** _(Function(tickData, index))_ - Callback when a tick axis is tapped
 * **`renderTickAxis`** _(Function(tickData, index))_ - Custom tickAxis
-
+* **`getTickAxisDatum`** _(Function(ticks))_ - Get Ticks axis datum
 
 ## Roadmap
 
