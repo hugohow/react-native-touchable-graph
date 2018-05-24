@@ -19,7 +19,10 @@ class TouchableGraph extends Component {
     }
     renderAxis(axisData) {
         const ticks = [].concat.apply([], axisData); 
-        let { onPressTickAxis, tickAxisStyle, tickAxisTextStyle } = this.props
+        let { onPressTickAxis, tickAxisStyle, tickAxisTextStyle, getTickAxisDatum } = this.props
+        if (getTickAxisDatum) {
+            getTickAxisDatum(ticks)
+        }
         return ticks.map((tick, index) => {
             let { tickLabels, tickAxis } = tick
             if(tickLabels) {
@@ -69,7 +72,10 @@ class TouchableGraph extends Component {
     }
     renderBars(barsData) {
         const bars = [].concat.apply([], barsData); 
-        let { onPressBar, barStyle } = this.props
+        let { onPressBar, barStyle, getBarDatum } = this.props
+        if (getBarDatum) {
+            getBarDatum(bars)
+        }
         return bars.map((data, index) => {
             let widthBar = 20
             let paddingBottom = 50
@@ -154,6 +160,7 @@ TouchableGraph.propTypes = {
     ]),
     onPressBar: PropTypes.func,
     renderBar: PropTypes.func,
+    getBarDatum: PropTypes.func,
     tickAxisStyle: PropTypes.oneOfType([
         PropTypes.object,
         PropTypes.func
@@ -164,16 +171,19 @@ TouchableGraph.propTypes = {
     ]),
     onPressTickAxis: PropTypes.func,
     renderTickAxis: PropTypes.func,
+    getTickAxisDatum: PropTypes.func,
 }
 
 TouchableGraph.defaultProps = {
     barStyle: { borderColor: 'grey', borderWidth: 1 },
     onPressBar: () => {},
     renderBar: null,
+    getBarDatum: null,
     tickAxisStyle: {},
     tickAxisTextStyle: { fontSize: 12, color: 'black' },
     onPressTickAxis: () => {},
     renderTickAxis: null,
+    getTickAxisDatum: null
 }
 
 
