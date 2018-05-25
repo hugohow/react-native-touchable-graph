@@ -14,15 +14,12 @@ class TouchableGraph extends Component {
             barsData: [],
             axisData: []
         }
-        this.getBarData = this.getBarData.bind(this)
-        this.getAxisData = this.getAxisData.bind(this)
+        this.getBarDatum = this.getBarDatum.bind(this)
+        this.getTickAxisDatum = this.getTickAxisDatum.bind(this)
     }
     renderAxis(axisData) {
         const ticks = [].concat.apply([], axisData); 
         let { onPressTickAxis, tickAxisStyle, tickAxisTextStyle, getTickAxisDatum } = this.props
-        if (getTickAxisDatum) {
-            getTickAxisDatum(ticks)
-        }
         return ticks.map((tick, index) => {
             let { tickLabels, tickAxis } = tick
             if(tickLabels) {
@@ -73,9 +70,6 @@ class TouchableGraph extends Component {
     renderBars(barsData) {
         const bars = [].concat.apply([], barsData); 
         let { onPressBar, barStyle, getBarDatum } = this.props
-        if (getBarDatum) {
-            getBarDatum(bars)
-        }
         return bars.map((data, index) => {
             let widthBar = 20
             let paddingBottom = 50
@@ -101,11 +95,19 @@ class TouchableGraph extends Component {
             )
         })
     }
-    getBarData(barData) {
+    getBarDatum(barData) {
+        const { getBarDatum } = this.props
         this.setState((prevState) => ({ barsData: [...prevState.barsData, barData] }))
+        if(getBarDatum) {
+            getBarDatum(barData)
+        }
     }
-    getAxisData(axisData) {
+    getTickAxisDatum(axisData) {
+        const { getTickAxisDatum } = this.props
         this.setState((prevState) => ({ axisData: [...prevState.axisData, axisData] }))
+        if(getTickAxisDatum) {
+            getTickAxisDatum(axisData)
+        }
     }
 	render() {
         const { children } = this.props
@@ -124,7 +126,7 @@ class TouchableGraph extends Component {
                                         <VictoryBarCustom 
                                             {...component.props} 
                                             style={transparentBarStyle}
-                                            getBarData={this.getBarData}
+                                            getBarDatum={this.getBarDatum}
                                             events={[]}
                                         />
                                     )
@@ -135,7 +137,7 @@ class TouchableGraph extends Component {
                                         <VictoryAxisCustom 
                                             {...component.props}
                                             style={{...component.props.style, tickLabels: { ...tickLabels, fillOpacity: 0.0 }}}
-                                            getAxisData={this.getAxisData}
+                                            getTickAxisDatum={this.getTickAxisDatum}
                                         />
                                     )
                                 }               
