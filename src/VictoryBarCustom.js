@@ -26,7 +26,7 @@ class VictoryBarCustom extends VictoryBar {
                 height: baseProps[key].data.height,
             }
           })
-        this.props.getBarData(barData)
+        this.props.getBarDatum(barData)
       }
 }
 

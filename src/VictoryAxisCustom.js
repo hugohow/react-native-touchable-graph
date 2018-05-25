@@ -21,7 +21,7 @@ class VictoryAxisCustom extends VictoryAxis {
           const axisData = Object.keys(baseProps).map(function(key, index) {
             return { tickLabels: baseProps[key].tickLabels, tickAxis: baseProps[key].axis }
           })
-          this.props.getAxisData(axisData)
+          this.props.getTickAxisDatum(axisData)
       }
 }
 
