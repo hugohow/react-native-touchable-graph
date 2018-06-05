@@ -16,6 +16,16 @@ class TouchableGraph extends Component {
         }
         this.getBarDatum = this.getBarDatum.bind(this)
         this.getTickAxisDatum = this.getTickAxisDatum.bind(this)
+        this._isMounted = false;
+    }
+    componentDidMount() {
+        this.setIsMounted(true);
+    }
+    componentWillUnmount() {
+        this.setIsMounted(false);
+    }
+    setIsMounted(value) {
+        this._isMounted = value;
     }
     renderAxis(axisData) {
         const ticks = [].concat.apply([], axisData); 
@@ -115,42 +125,49 @@ class TouchableGraph extends Component {
         const transparentBarStyle = {
             data: { fillOpacity: 0.0, strokeOpacity: 0 }
           }
-		return (
-			<View>
-				{Children.map(children, (child) => { 
-                    if (child.type && child.type.displayName === 'VictoryChart') {
-                        width = child.props.width
-                        let children = child.props.children.map((component) => {
-                                if (component && component.type && component.type.displayName === "VictoryBar") {
-                                    return (
-                                        <VictoryBarCustom 
-                                            {...component.props} 
-                                            style={transparentBarStyle}
-                                            getBarDatum={this.getBarDatum}
-                                            events={[]}
-                                        />
-                                    )
-                                } 
-                                if (component && component.type && component.type.displayName === "VictoryAxis") {
-									let tickLabels = component.props.style && component.props.style.tickLabels ? component.props.style.tickLabels : {}
-                                    return (
-                                        <VictoryAxisCustom 
-                                            {...component.props}
-                                            style={{...component.props.style, tickLabels: { ...tickLabels, fillOpacity: 0.0 }}}
-                                            getTickAxisDatum={this.getTickAxisDatum}
-                                        />
-                                    )
-                                }               
-                                return component
-                            })
-                        return { ...child, props: { ...child.props, children: children } }
-                    }
-                    return child                    
-                })}
-                {barsData.length > 0 && this.renderBars(barsData)}
-                {axisData.length > 0 && this.renderAxis(axisData)}
-			</View>
-		)
+          const childrenRendered = Children.map(children, (child) => { 
+            if (child.type && child.type.displayName === 'VictoryChart') {
+                let children = child.props.children.map((component) => {
+                        if (component && component.type && component.type.displayName === "VictoryBar") {
+                            return (
+                                <VictoryBarCustom 
+                                    {...component.props} 
+                                    style={transparentBarStyle}
+                                    getBarDatum={this.getBarDatum}
+                                    events={[]}
+                                />
+                            )
+                        } 
+                        if (component && component.type && component.type.displayName === "VictoryAxis") {
+                            let tickLabels = component.props.style && component.props.style.tickLabels ? component.props.style.tickLabels : {}
+                            return (
+                                <VictoryAxisCustom 
+                                    {...component.props}
+                                    style={{...component.props.style, tickLabels: { ...tickLabels, fillOpacity: 0.0 }}}
+                                    getTickAxisDatum={this.getTickAxisDatum}
+                                />
+                            )
+                        }               
+                        return component
+                    })
+                return { ...child, props: { ...child.props, children: children } }
+            }
+            return child                    
+        })
+        if (this._isMounted || this.props.renderLoading === null) {
+            return (
+                <View>
+                    {childrenRendered}
+                    {barsData.length > 0 && this.renderBars(barsData)}
+                    {axisData.length > 0 && this.renderAxis(axisData)}
+                </View>
+            )
+        }
+        if (this.props.renderLoading) {
+            return this.props.renderLoading()
+        }
+        return null
+        
 	}
 }
 
@@ -174,6 +191,7 @@ TouchableGraph.propTypes = {
     onPressTickAxis: PropTypes.func,
     renderTickAxis: PropTypes.func,
     getTickAxisDatum: PropTypes.func,
+    renderLoading: PropTypes.func,
 }
 
 TouchableGraph.defaultProps = {
@@ -185,7 +203,8 @@ TouchableGraph.defaultProps = {
     tickAxisTextStyle: { fontSize: 12, color: 'black' },
     onPressTickAxis: () => {},
     renderTickAxis: null,
-    getTickAxisDatum: null
+    getTickAxisDatum: null,
+    renderLoading: null
 }
 
 

@@ -88,6 +88,10 @@ Tick axis props :
 * **`renderTickAxis`** _(Function(tickData, index))_ - Custom tickAxis
 * **`getTickAxisDatum`** _(Function(ticks))_ - Get Ticks axis datum
 
+Other props :
+
+* **`renderLoading`** _(Function())_ - Render a loading view when initializing
+
 ## Roadmap
 
 Improve for : 
