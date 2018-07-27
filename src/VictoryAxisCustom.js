@@ -1,10 +1,13 @@
 import React from "react";
 import { Dimensions } from "react-native";
 import { G } from "react-native-svg";
-import { VictoryAxis } from "victory-chart/es";
+import { VictoryAxis } from "victory-axis/es";
 import { VictoryLabel, VictoryContainer, Axis } from 'victory-native'
 
 class VictoryAxisCustom extends VictoryAxis {
+	constructor(props){
+		super(props);
+	}
     static defaultProps = Object.assign({}, VictoryAxis.defaultProps, {
         axisComponent: <Axis/>,
         axisLabelComponent: <VictoryLabel/>,

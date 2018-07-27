@@ -157,7 +157,7 @@ class TouchableGraph extends Component {
         if (this._isMounted || this.props.renderLoading === null) {
             return (
                 <View>
-                    {childrenRendered}
+                    <View pointerEvents="none">{childrenRendered}</View>
                     {barsData.length > 0 && this.renderBars(barsData)}
                     {axisData.length > 0 && this.renderAxis(axisData)}
                 </View>

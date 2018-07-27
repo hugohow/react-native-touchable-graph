@@ -22,7 +22,15 @@ Android example            |  Ios example
 1. Install library and react-native-svg
 
 	```
-	npm i --save react-native-touchable-graph victory-native react-native-svg
+	npm i --save victory-native react-native-svg
+  ```
+  Then, if victory-native version >= 0.16.6 
+  ```
+  npm i --save react-native-touchable-graph
+	```
+  else
+  ```
+  npm i --save react-native-touchable-graph@0.0.138
 	```
 2. Link native code for SVG
 
