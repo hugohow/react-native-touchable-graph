@@ -2,7 +2,7 @@ import React from "react";
 import { Dimensions } from "react-native";
 import { G } from "react-native-svg";
 import { VictoryLabel, VictoryContainer, Bar } from 'victory-native'
-import { VictoryBar } from "victory-chart/es";
+import { VictoryBar } from "victory-bar/es";
 
 
 class VictoryBarCustom extends VictoryBar {
