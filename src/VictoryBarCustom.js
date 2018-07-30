@@ -6,6 +6,9 @@ import { VictoryBar } from "victory-bar/es";
 
 
 class VictoryBarCustom extends VictoryBar {
+    constructor(props){
+		super(props);
+	}
     static defaultProps = Object.assign({}, VictoryBar.defaultProps, {
         dataComponent: <Bar/>,
         labelComponent: <VictoryLabel/>,
