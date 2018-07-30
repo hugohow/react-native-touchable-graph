@@ -2,7 +2,7 @@ import React from "react";
 import { Dimensions } from "react-native";
 import { G } from "react-native-svg";
 import { VictoryAxis } from "victory-axis/es";
-import { VictoryLabel, VictoryContainer, Axis } from 'victory-native'
+import { VictoryContainer, VictoryLabel, Axis  } from "victory-core/es";
 
 class VictoryAxisCustom extends VictoryAxis {
 	constructor(props){
