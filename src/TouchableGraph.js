@@ -1,10 +1,10 @@
-import React, { Component,  Children, cloneElement } from 'react';
+import React, { Component,  Children } from 'react';
 
 import PropTypes from 'prop-types'
 
 import { View, TouchableOpacity, Text } from 'react-native'
 import VictoryBarCustom from './VictoryBarCustom'
-import VictoryAxisCustom from './VictoryAxisCustom';
+import VictoryAxisCustom from './VictoryAxisCustom'
 
 
 class TouchableGraph extends Component {
@@ -29,7 +29,7 @@ class TouchableGraph extends Component {
     }
     renderAxis(axisData) {
         const ticks = [].concat.apply([], axisData); 
-        let { onPressTickAxis, tickAxisStyle, tickAxisTextStyle, getTickAxisDatum } = this.props
+        let { onPressTickAxis, tickAxisStyle, tickAxisTextStyle } = this.props
         return ticks.map((tick, index) => {
             let { tickLabels, tickAxis } = tick
             if(tickLabels) {
@@ -69,7 +69,13 @@ class TouchableGraph extends Component {
                         }, positionStyle, typeof tickAxisStyle === "function" ? tickAxisStyle(tick, index) : tickAxisStyle]}
                         onPress={() => onPressTickAxis(tick, index)}
                     >
-                        <Text style={[{fontSize: tickLabels.style.fontSize, textAlign: textAlign}, typeof tickAxisTextStyle === "function" ? tickAxisTextStyle(tick, index) : tickAxisTextStyle]}>
+                        <Text style={[
+                            {
+                                fontSize: tickLabels.style.fontSize,
+                                textAlign: textAlign
+                            },
+                            typeof tickAxisTextStyle === "function" ? tickAxisTextStyle(tick, index) : tickAxisTextStyle,
+                        ]}>
                             {tickLabels.text}
                         </Text>
                     </TouchableOpacity>
@@ -79,7 +85,7 @@ class TouchableGraph extends Component {
     }
     renderBars(barsData) {
         const bars = [].concat.apply([], barsData); 
-        let { onPressBar, barStyle, getBarDatum } = this.props
+        let { onPressBar, barStyle } = this.props
         return bars.map((data, index) => {
             let widthBar = 20
             let paddingBottom = 50
@@ -120,43 +126,44 @@ class TouchableGraph extends Component {
         }
     }
 	render() {
-        const { children } = this.props
+        const { children, style } = this.props
         const { barsData, axisData } = this.state
         const transparentBarStyle = {
             data: { fillOpacity: 0.0, strokeOpacity: 0 }
           }
-          const childrenRendered = Children.map(children, (child) => { 
+          const childrenRendered = Children.map(children, (child) => {
+            
             if (child.type && child.type.displayName === 'VictoryChart') {
-                let children = child.props.children.map((component) => {
-                        if (component && component.type && component.type.displayName === "VictoryBar") {
-                            return (
-                                <VictoryBarCustom 
-                                    {...component.props} 
-                                    style={transparentBarStyle}
-                                    getBarDatum={this.getBarDatum}
-                                    events={[]}
-                                />
-                            )
-                        } 
-                        if (component && component.type && component.type.displayName === "VictoryAxis") {
-                            let tickLabels = component.props.style && component.props.style.tickLabels ? component.props.style.tickLabels : {}
-                            return (
-                                <VictoryAxisCustom 
-                                    {...component.props}
-                                    style={{...component.props.style, tickLabels: { ...tickLabels, fillOpacity: 0.0 }}}
-                                    getTickAxisDatum={this.getTickAxisDatum}
-                                />
-                            )
-                        }               
-                        return component
-                    })
-                return { ...child, props: { ...child.props, children: children } }
+                const children = Children.map(child.props.children, (component) => {
+                    if (component && component.type && component.type.displayName === "VictoryBar") {
+                        return (
+                            <VictoryBarCustom 
+                                {...component.props} 
+                                style={transparentBarStyle}
+                                getBarDatum={this.getBarDatum}
+                                events={[]}
+                            />
+                        )
+                    } 
+                    if (component && component.type && component.type.displayName === "VictoryAxis") {
+                        let tickLabels = component.props.style && component.props.style.tickLabels ? component.props.style.tickLabels : {}
+                        return (
+                            <VictoryAxisCustom 
+                                {...component.props}
+                                style={{...component.props.style, tickLabels: { ...tickLabels, fillOpacity: 0.0 }}}
+                                getTickAxisDatum={this.getTickAxisDatum}
+                            />
+                        )
+                    }
+                    return component
+                })
+                return { ...child, props: { ...child.props, children } }
             }
             return child                    
         })
         if (this._isMounted || this.props.renderLoading === null) {
             return (
-                <View>
+                <View style={style}>
                     <View pointerEvents="none">{childrenRendered}</View>
                     {barsData.length > 0 && this.renderBars(barsData)}
                     {axisData.length > 0 && this.renderAxis(axisData)}
@@ -173,6 +180,7 @@ class TouchableGraph extends Component {
 
 
 TouchableGraph.propTypes = {
+    style: PropTypes.object,
     barStyle: PropTypes.oneOfType([
         PropTypes.object,
         PropTypes.func
@@ -195,6 +203,7 @@ TouchableGraph.propTypes = {
 }
 
 TouchableGraph.defaultProps = {
+    style: null,
     barStyle: { borderColor: 'grey', borderWidth: 1 },
     onPressBar: () => {},
     renderBar: null,
